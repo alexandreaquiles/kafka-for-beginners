@@ -189,6 +189,32 @@ public class Consumer {
         meu-grupo       first-topic     2          22              22              0               consumer-meu-grupo-1-ac148869-d86e-4b2c-8cc9-bbd3a394312d /127.0.0.1      consumer-meu-grupo-1
 
         */
+
+        /*
+        ENABLE PARALLEL RUN
+
+        [main] INFO org.apache.kafka.common.utils.AppInfoParser - Kafka version: 2.5.0
+        [main] INFO org.apache.kafka.common.utils.AppInfoParser - Kafka commitId: 66563e712b0b9f84
+        [main] INFO org.apache.kafka.common.utils.AppInfoParser - Kafka startTimeMs: 1587499248793
+        [main] INFO org.apache.kafka.clients.consumer.KafkaConsumer - [Consumer clientId=consumer-meu-grupo-1, groupId=meu-grupo] Subscribed to topic(s): first-topic
+        [main] INFO org.apache.kafka.clients.Metadata - [Consumer clientId=consumer-meu-grupo-1, groupId=meu-grupo] Cluster ID: aLied6mIS5uiBC58F55JkQ
+        [main] INFO org.apache.kafka.clients.consumer.internals.AbstractCoordinator - [Consumer clientId=consumer-meu-grupo-1, groupId=meu-grupo] Discovered group coordinator aquiles:9092 (id: 2147483647 rack: null)
+        [main] INFO org.apache.kafka.clients.consumer.internals.AbstractCoordinator - [Consumer clientId=consumer-meu-grupo-1, groupId=meu-grupo] (Re-)joining group
+        [main] INFO org.apache.kafka.clients.consumer.internals.AbstractCoordinator - [Consumer clientId=consumer-meu-grupo-1, groupId=meu-grupo] Join group failed with org.apache.kafka.common.errors.MemberIdRequiredException: The group member needs to have a valid member id before actually entering a consumer group
+        [main] INFO org.apache.kafka.clients.consumer.internals.AbstractCoordinator - [Consumer clientId=consumer-meu-grupo-1, groupId=meu-grupo] (Re-)joining group
+        [main] INFO org.apache.kafka.clients.consumer.internals.AbstractCoordinator - [Consumer clientId=consumer-meu-grupo-1, groupId=meu-grupo] Successfully joined group with generation 2
+        [main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-meu-grupo-1, groupId=meu-grupo] Adding newly assigned partitions: first-topic-1, first-topic-0
+        [main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-meu-grupo-1, groupId=meu-grupo] Setting offset for partition first-topic-1 to the committed offset FetchPosition{offset=16, offsetEpoch=Optional[0], currentLeader=LeaderAndEpoch{leader=Optional[aquiles:9092 (id: 0 rack: null)], epoch=0}}
+        [main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-meu-grupo-1, groupId=meu-grupo] Setting offset for partition first-topic-0 to the committed offset FetchPosition{offset=18, offsetEpoch=Optional[0], currentLeader=LeaderAndEpoch{leader=Optional[aquiles:9092 (id: 0 rack: null)], epoch=0}}
+
+        kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group meu-grupo
+
+        GROUP           TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID                                               HOST            CLIENT-ID
+        meu-grupo       first-topic     0          18              18              0               consumer-meu-grupo-1-572953c9-4b28-4bf2-a7c4-40ff4a0c47d5 /127.0.0.1      consumer-meu-grupo-1
+        meu-grupo       first-topic     1          16              16              0               consumer-meu-grupo-1-572953c9-4b28-4bf2-a7c4-40ff4a0c47d5 /127.0.0.1      consumer-meu-grupo-1
+        meu-grupo       first-topic     2          22              22              0               consumer-meu-grupo-1-ac148869-d86e-4b2c-8cc9-bbd3a394312d /127.0.0.1      consumer-meu-grupo-1
+
+         */
       }
 
 
