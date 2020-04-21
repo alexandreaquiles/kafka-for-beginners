@@ -51,45 +51,25 @@ class ConsumerRunnable implements  Runnable {
     properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
     properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
     // no group id
-     properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "meu-novo-grupo");
-    //properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+    // properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "meu-novo-grupo");
+    properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
-    /*
-    auto.offset.reset
-
-    Por padrão, um novo grupo não obtém as mensagens do começo.
-
-    What to do when there is no initial offset in Kafka or if the current offset does not exist any more on the server
-      (e.g. because that data has been deleted):
-
-    earliest: automatically reset the offset to the earliest offset
-    latest: automatically reset the offset to the latest offset
-    none: throw exception to the consumer if no previous offset is found for the consumer's group
-    anything else: throw exception to the consumer.
-
-    Type:	string
-    Default:	latest
-    Valid Values:	[latest, earliest, none]
-    Importance:	medium
-
-     */
 
     consumer = new KafkaConsumer<>(properties);
 
-     consumer.subscribe(Collections.singleton("first-topic"));
+    // don't subscribe
+    consumer.subscribe(Collections.singleton("first-topic"));
 
     // assign and seek => replay data or fetch a specific message
-    //TopicPartition topicPartition = new TopicPartition("first-topic", 0);
-    //consumer.assign(Collections.singleton(topicPartition));
+    TopicPartition topicPartition = new TopicPartition("first-topic", 0);
+    consumer.assign(Collections.singleton(topicPartition));
 
-    //consumer.seek(topicPartition, 10L);
+    consumer.seek(topicPartition, 10L);
 
     /*
-    Same as
-
-    kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic first-topic --partition 0 --offset 10
-
-     */
+    same as:
+      kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic first-topic --partition 0 --offset 10
+    */
 
   }
 
