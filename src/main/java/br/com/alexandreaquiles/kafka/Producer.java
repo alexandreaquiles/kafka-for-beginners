@@ -24,9 +24,14 @@ public class Producer {
 
     KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
 
-    ProducerRecord record = new ProducerRecord<>("first-topic", "Mensagem direto do Java!");
 
-    producer.send(record, (recordMetadata, e) -> {
+    for (int i = 0; i < 10; i++) {
+
+      String key = "id_" + i;
+
+      ProducerRecord record = new ProducerRecord<>("first-topic", key, "Mensagem direto do Java: " + i);
+
+      producer.send(record, (recordMetadata, e) -> {
       if (e == null) {
         logger.info(
           "topic: " + recordMetadata.topic() + "\n"
@@ -38,7 +43,60 @@ public class Producer {
         logger.error("Error while producing", e);
       }
 
-    });
+      });
+    }
+
+    /*
+    kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 1
+    offset: 11
+    timestamp: 1587497580665
+
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 1
+    offset: 12
+    timestamp: 1587497580690
+
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 0
+    offset: 12
+    timestamp: 1587497580686
+
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 0
+    offset: 13
+    timestamp: 1587497580686
+
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 0
+    offset: 14
+    timestamp: 1587497580686
+
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 2
+    offset: 12
+    timestamp: 1587497580686
+
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 2
+    offset: 13
+    timestamp: 1587497580686
+
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 2
+    offset: 14
+    timestamp: 1587497580686
+
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 2
+    offset: 15
+    timestamp: 1587497580690
+
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 2
+    offset: 16
+    timestamp: 1587497580690
+     */
 
     //producer.flush();
     producer.close();
