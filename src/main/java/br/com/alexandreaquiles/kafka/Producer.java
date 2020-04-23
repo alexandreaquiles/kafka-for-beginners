@@ -7,12 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 public class Producer {
 
   private static final Logger logger = LoggerFactory.getLogger(Producer.class);
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws ExecutionException, InterruptedException {
     // http://kafka.apache.org/documentation/#producerconfigs
     Properties properties = new Properties();
     //  properties.setProperty("bootstrap.servers", "localhost:9092");
@@ -31,6 +32,8 @@ public class Producer {
 
       ProducerRecord record = new ProducerRecord<>("first-topic", key, "Mensagem direto do Java: " + i);
 
+      logger.info("key: " + record.key());
+
       producer.send(record, (recordMetadata, e) -> {
       if (e == null) {
         logger.info(
@@ -43,63 +46,75 @@ public class Producer {
         logger.error("Error while producing", e);
       }
 
-      });
+      }).get();
     }
-
-    /*
-    kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
-    partition: 1
-    offset: 11
-    timestamp: 1587497580665
-
-    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
-    partition: 1
-    offset: 12
-    timestamp: 1587497580690
-
-    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
-    partition: 0
-    offset: 12
-    timestamp: 1587497580686
-
-    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
-    partition: 0
-    offset: 13
-    timestamp: 1587497580686
-
-    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
-    partition: 0
-    offset: 14
-    timestamp: 1587497580686
-
-    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
-    partition: 2
-    offset: 12
-    timestamp: 1587497580686
-
-    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
-    partition: 2
-    offset: 13
-    timestamp: 1587497580686
-
-    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
-    partition: 2
-    offset: 14
-    timestamp: 1587497580686
-
-    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
-    partition: 2
-    offset: 15
-    timestamp: 1587497580690
-
-    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
-    partition: 2
-    offset: 16
-    timestamp: 1587497580690
-     */
 
     //producer.flush();
     producer.close();
+
+    /* SEMPRE A MESMA PARTITION! */
+    /*
+    [main] INFO br.com.alexandreaquiles.kafka.Producer - key: id_0
+    [kafka-producer-network-thread | producer-1] INFO org.apache.kafka.clients.Metadata - [Producer clientId=producer-1] Cluster ID: ZsIN93GiQUOGZ6fqn8Dg3A
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 1
+    offset: 4
+    timestamp: 1587653288803
+
+    [main] INFO br.com.alexandreaquiles.kafka.Producer - key: id_1
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 0
+    offset: 6
+    timestamp: 1587653288891
+
+    [main] INFO br.com.alexandreaquiles.kafka.Producer - key: id_2
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 2
+    offset: 10
+    timestamp: 1587653288896
+
+    [main] INFO br.com.alexandreaquiles.kafka.Producer - key: id_3
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 0
+    offset: 7
+    timestamp: 1587653288901
+
+    [main] INFO br.com.alexandreaquiles.kafka.Producer - key: id_4
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 2
+    offset: 11
+    timestamp: 1587653288904
+
+    [main] INFO br.com.alexandreaquiles.kafka.Producer - key: id_5
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 2
+    offset: 12
+    timestamp: 1587653288911
+
+    [main] INFO br.com.alexandreaquiles.kafka.Producer - key: id_6
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 0
+    offset: 8
+    timestamp: 1587653288915
+
+    [main] INFO br.com.alexandreaquiles.kafka.Producer - key: id_7
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 2
+    offset: 13
+    timestamp: 1587653288920
+
+    [main] INFO br.com.alexandreaquiles.kafka.Producer - key: id_8
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 1
+    offset: 5
+    timestamp: 1587653288923
+
+    [main] INFO br.com.alexandreaquiles.kafka.Producer - key: id_9
+    [kafka-producer-network-thread | producer-1] INFO br.com.alexandreaquiles.kafka.Producer - topic: first-topic
+    partition: 2
+    offset: 14
+    timestamp: 1587653288927
+     */
 
     //Consumindo com:
     // kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic first-topic --from-beginning --group my-first-application
