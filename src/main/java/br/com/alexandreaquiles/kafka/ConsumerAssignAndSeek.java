@@ -1,10 +1,10 @@
 package br.com.alexandreaquiles.kafka;
 
-
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.errors.WakeupException;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.slf4j.Logger;
@@ -15,9 +15,9 @@ import java.util.Collections;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 
-public class Consumer {
+public class ConsumerAssignAndSeek {
 
-  private static final Logger logger = LoggerFactory.getLogger(Consumer.class);
+  private static final Logger logger = LoggerFactory.getLogger(ConsumerAssignAndSeek.class);
 
   public static void main(String[] args) throws InterruptedException {
 
@@ -37,25 +37,40 @@ public class Consumer {
   }
 }
 
-class ConsumerRunnable implements  Runnable {
+class ConsumerAssignAndSeekRunnable implements  Runnable {
 
   private static final Logger logger = LoggerFactory.getLogger(ConsumerRunnable.class);
   private final KafkaConsumer<String, String> consumer;
   private CountDownLatch countDownLatch;
 
-  ConsumerRunnable(CountDownLatch countDownLatch) {
+  ConsumerAssignAndSeekRunnable(CountDownLatch countDownLatch) {
     this.countDownLatch = countDownLatch;
     // http://kafka.apache.org/documentation/#consumerconfigs
     Properties properties = new Properties();
     properties.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
     properties.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
     properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-    properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "meu-grupo");
+    // no group id
+    // properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "meu-novo-grupo");
     properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
 
     consumer = new KafkaConsumer<>(properties);
 
+    // don't subscribe
     consumer.subscribe(Collections.singleton("first-topic"));
+
+    // assign and seek => replay data or fetch a specific message
+    TopicPartition topicPartition = new TopicPartition("first-topic", 0);
+    consumer.assign(Collections.singleton(topicPartition));
+
+    consumer.seek(topicPartition, 10L);
+
+    /*
+    same as:
+      kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic first-topic --partition 0 --offset 10
+    */
+
   }
 
   @Override
