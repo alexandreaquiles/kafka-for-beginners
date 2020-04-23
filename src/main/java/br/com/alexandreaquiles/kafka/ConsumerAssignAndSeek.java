@@ -58,7 +58,7 @@ class ConsumerAssignAndSeekRunnable implements  Runnable {
     consumer = new KafkaConsumer<>(properties);
 
     // don't subscribe
-    consumer.subscribe(Collections.singleton("first-topic"));
+    //consumer.subscribe(Collections.singleton("first-topic"));
 
     // assign and seek => replay data or fetch a specific message
     TopicPartition topicPartition = new TopicPartition("first-topic", 0);
