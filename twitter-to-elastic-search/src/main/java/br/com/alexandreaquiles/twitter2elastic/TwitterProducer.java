@@ -17,6 +17,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.BlockingQueue;
@@ -30,7 +31,7 @@ public class TwitterProducer {
   public static void main(String[] args) {
     BlockingQueue<String> msgQueue = new LinkedBlockingQueue<String>(100);
 
-    Client twitterClient = setupTwitterClient(msgQueue, "#COVID19");
+    Client twitterClient = setupTwitterClient(msgQueue, "java");
     KafkaProducer<String, String> producer = setUpKafkaProducer();
 
     twitterClient.connect();
@@ -60,6 +61,7 @@ public class TwitterProducer {
     StatusesFilterEndpoint endpoint = new StatusesFilterEndpoint();
     List<String> terms = Lists.newArrayList(term);
     endpoint.trackTerms(terms);
+    endpoint.languages(Collections.singletonList("en"));
 
     String consumerKey = System.getenv("TWITTER_HBC_CLIENT_API_KEY");
     String consumerSecret = System.getenv("TWITTER_HBC_CLIENT_API_KEY_SECRET");
