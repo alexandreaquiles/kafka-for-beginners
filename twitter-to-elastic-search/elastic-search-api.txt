@@ -1,0 +1,1448 @@
+https://app.bonsai.io/clusters/kafka-course-7697946932/console
+
+GET /
+
+
+  "name": "ip-172-31-77-150",
+  "cluster_name": "elasticsearch",
+  "cluster_uuid": "...",
+  "version": {
+    "number": "7.2.0",
+    "build_flavor": "oss",
+    "build_type": "tar",
+    "build_hash": "508c38a",
+    "build_date": "2019-06-20T15:54:18.811730Z",
+    "build_snapshot": false,
+    "lucene_version": "8.0.0",
+    "minimum_wire_compatibility_version": "6.8.0",
+    "minimum_index_compatibility_version": "6.0.0-beta1"
+  },
+  "tagline": "You Know, for Search"
+}
+
+
+GET /_cat/health?v
+
+epoch      timestamp cluster       status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent
+1588079957 13:19:17  elasticsearch green           3         3      0   0    0    0        0             0                  -                100.0%
+
+GET /_cat/nodes?v
+
+
+ip            heap.percent ram.percent cpu load_1m load_5m load_15m node.role master name
+172.31.xx.xxx                                                       mdi       *      ip-172-31-xx-xxx
+172.31.xx.xxx                                                       mdi       -      ip-172-31-xx-xxx
+172.31.xx.xxx                                                       mdi       -      ip-172-31-xx-xxx
+
+GET /_cat/indices?v
+
+health status index uuid pri rep docs.count docs.deleted store.size pri.store.size
+
+
+PUT /twitter
+
+{
+  "acknowledged": true,
+  "shards_acknowledged": true,
+  "index": "twitter"
+}
+
+run again
+
+400
+
+{
+  "error": {
+    "root_cause": [
+      {
+        "type": "resource_already_exists_exception",
+        "reason": "index [twitter/...] already exists",
+        "index_uuid": "...",
+        "index": "twitter"
+      }
+    ],
+    "type": "resource_already_exists_exception",
+    "reason": "index [twitter/...] already exists",
+    "index_uuid": "...",
+    "index": "twitter"
+  },
+  "status": 400
+}
+
+
+GET /_cat/indices?v
+
+health status index                     uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+green  open   twitter ...   1   1          0            0       460b           230b
+
+PUT /twitter/tweets/1
+
+{
+   "created_at":"Tue Apr 28 13:26:08 +0000 2020",
+   "id":1255126152538177537,
+   "id_str":"1255126152538177537",
+   "text":"#Covid19 is sadly going to hit young people in the earliest part of their #careers very hard indeed.\u2026 https:\/\/t.co\/ltWYQDTILN",
+   "source":"\u003ca href=\"http:\/\/twitter.com\/download\/android\" rel=\"nofollow\"\u003eTwitter for Android\u003c\/a\u003e",
+   "truncated":true,
+   "in_reply_to_status_id":null,
+   "in_reply_to_status_id_str":null,
+   "in_reply_to_user_id":null,
+   "in_reply_to_user_id_str":null,
+   "in_reply_to_screen_name":null,
+   "user":{
+      "id":897576836,
+      "id_str":"897576836",
+      "name":"Norman",
+      "screen_name":"NPickavance",
+      "location":"EVERYWHERE",
+      "url":"http:\/\/normanpickavance.co.uk\/",
+      "description":"Building Business Everyone Can Believe in...... \n\n\n\n'Let your life speak'",
+      "translator_type":"none",
+      "protected":false,
+      "verified":false,
+      "followers_count":2140,
+      "friends_count":4999,
+      "listed_count":307,
+      "favourites_count":4366,
+      "statuses_count":13474,
+      "created_at":"Mon Oct 22 13:23:28 +0000 2012",
+      "utc_offset":null,
+      "time_zone":null,
+      "geo_enabled":true,
+      "lang":null,
+      "contributors_enabled":false,
+      "is_translator":false,
+      "profile_background_color":"C0DEED",
+      "profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png",
+      "profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png",
+      "profile_background_tile":false,
+      "profile_link_color":"FAB81E",
+      "profile_sidebar_border_color":"FFFFFF",
+      "profile_sidebar_fill_color":"DDEEF6",
+      "profile_text_color":"333333",
+      "profile_use_background_image":true,
+      "profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/1218981455948402688\/bHPZ6nc0_normal.png",
+      "profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/1218981455948402688\/bHPZ6nc0_normal.png",
+      "profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/897576836\/1584646889",
+      "default_profile":false,
+      "default_profile_image":false,
+      "following":null,
+      "follow_request_sent":null,
+      "notifications":null
+   },
+   "geo":null,
+   "coordinates":null,
+   "place":null,
+   "contributors":null,
+   "quoted_status_id":1255114367949037569,
+   "quoted_status_id_str":"1255114367949037569",
+   "quoted_status":{
+      "created_at":"Tue Apr 28 12:39:18 +0000 2020",
+      "id":1255114367949037569,
+      "id_str":"1255114367949037569",
+      "text":"There are concerns about recruitment and the economy as internships are cancelled https:\/\/t.co\/Fi1llz83HI",
+      "source":"\u003ca href=\"https:\/\/www.echobox.com\" rel=\"nofollow\"\u003eEchobox Social\u003c\/a\u003e",
+      "truncated":false,
+      "in_reply_to_status_id":null,
+      "in_reply_to_status_id_str":null,
+      "in_reply_to_user_id":null,
+      "in_reply_to_user_id_str":null,
+      "in_reply_to_screen_name":null,
+      "user":{
+         "id":38142380,
+         "id_str":"38142380",
+         "name":"Evening Standard",
+         "screen_name":"standardnews",
+         "location":"London",
+         "url":"http:\/\/www.standard.co.uk",
+         "description":"Breaking news and updates on top London stories from the newsdesk of the @EveningStandard. Follow our other accounts at https:\/\/t.co\/5nrRg0ZT",
+         "translator_type":"none",
+         "protected":false,
+         "verified":true,
+         "followers_count":631794,
+         "friends_count":889,
+         "listed_count":4154,
+         "favourites_count":36,
+         "statuses_count":336653,
+         "created_at":"Wed May 06 08:47:09 +0000 2009",
+         "utc_offset":null,
+         "time_zone":null,
+         "geo_enabled":false,
+         "lang":null,
+         "contributors_enabled":false,
+         "is_translator":false,
+         "profile_background_color":"9AE4E8",
+         "profile_background_image_url":"http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png",
+         "profile_background_image_url_https":"https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png",
+         "profile_background_tile":true,
+         "profile_link_color":"303F9F",
+         "profile_sidebar_border_color":"BDDCAD",
+         "profile_sidebar_fill_color":"DDFFCC",
+         "profile_text_color":"333333",
+         "profile_use_background_image":true,
+         "profile_image_url":"http:\/\/pbs.twimg.com\/profile_images\/973162573389533185\/HOwtAp6Y_normal.jpg",
+         "profile_image_url_https":"https:\/\/pbs.twimg.com\/profile_images\/973162573389533185\/HOwtAp6Y_normal.jpg",
+         "profile_banner_url":"https:\/\/pbs.twimg.com\/profile_banners\/38142380\/1549874035",
+         "default_profile":false,
+         "default_profile_image":false,
+         "following":null,
+         "follow_request_sent":null,
+         "notifications":null
+      },
+      "geo":null,
+      "coordinates":null,
+      "place":null,
+      "contributors":null,
+      "is_quote_status":false,
+      "quote_count":0,
+      "reply_count":0,
+      "retweet_count":1,
+      "favorite_count":7,
+      "entities":{
+         "hashtags":[
+
+         ],
+         "urls":[
+            {
+               "url":"https:\/\/t.co\/Fi1llz83HI",
+               "expanded_url":"https:\/\/bit.ly\/2Yecfi3",
+               "display_url":"bit.ly\/2Yecfi3",
+               "indices":[
+                  82,
+                  105
+               ]
+            }
+         ],
+         "user_mentions":[
+
+         ],
+         "symbols":[
+
+         ]
+      },
+      "favorited":false,
+      "retweeted":false,
+      "possibly_sensitive":false,
+      "filter_level":"low",
+      "lang":"en"
+   },
+   "quoted_status_permalink":{
+      "url":"https:\/\/t.co\/RAXP1A8hpm",
+      "expanded":"https:\/\/twitter.com\/standardnews\/status\/1255114367949037569",
+      "display":"twitter.com\/standardnews\/s\u2026"
+   },
+   "is_quote_status":true,
+   "extended_tweet":{
+      "full_text":"#Covid19 is sadly going to hit young people in the earliest part of their #careers very hard indeed.\n#financialwellbeing",
+      "display_text_range":[
+         0,
+         120
+      ],
+      "entities":{
+         "hashtags":[
+            {
+               "text":"Covid19",
+               "indices":[
+                  0,
+                  8
+               ]
+            },
+            {
+               "text":"careers",
+               "indices":[
+                  74,
+                  82
+               ]
+            },
+            {
+               "text":"financialwellbeing",
+               "indices":[
+                  101,
+                  120
+               ]
+            }
+         ],
+         "urls":[
+
+         ],
+         "user_mentions":[
+
+         ],
+         "symbols":[
+
+         ]
+      }
+   },
+   "quote_count":0,
+   "reply_count":0,
+   "retweet_count":0,
+   "favorite_count":0,
+   "entities":{
+      "hashtags":[
+         {
+            "text":"Covid19",
+            "indices":[
+               0,
+               8
+            ]
+         },
+         {
+            "text":"careers",
+            "indices":[
+               74,
+               82
+            ]
+         }
+      ],
+      "urls":[
+         {
+            "url":"https:\/\/t.co\/ltWYQDTILN",
+            "expanded_url":"https:\/\/twitter.com\/i\/web\/status\/1255126152538177537",
+            "display_url":"twitter.com\/i\/web\/status\/1\u2026",
+            "indices":[
+               102,
+               125
+            ]
+         }
+      ],
+      "user_mentions":[
+
+      ],
+      "symbols":[
+
+      ]
+   },
+   "favorited":false,
+   "retweeted":false,
+   "filter_level":"low",
+   "lang":"en",
+   "timestamp_ms":"1588080368538"
+}
+
+201
+
+{
+  "_index": "twitter",
+  "_type": "tweets",
+  "_id": "1",
+  "_version": 1,
+  "result": "created",
+  "_shards": {
+    "total": 2,
+    "successful": 2,
+    "failed": 0
+  },
+  "_seq_no": 0,
+  "_primary_term": 1
+}
+
+PUT /twitter/tweets/1
+
+same thing, but with "result": "updated"
+
+GET /twitter/tweets/1
+
+{
+  "_index": "twitter",
+  "_type": "tweets",
+  "_id": "1",
+  "_version": 1,
+  "_seq_no": 0,
+  "_primary_term": 1,
+  "found": true,
+  "_source": {
+    "created_at": "Tue Apr 28 13:26:08 +0000 2020",
+    "id": 1255126152538177500,
+    "id_str": "1255126152538177537",
+    "text": "#Covid19 is sadly going to hit young people in the earliest part of their #careers very hard indeed.… https://t.co/ltWYQDTILN",
+    "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+    "truncated": true,
+    "in_reply_to_status_id": null,
+    "in_reply_to_status_id_str": null,
+    "in_reply_to_user_id": null,
+    "in_reply_to_user_id_str": null,
+    "in_reply_to_screen_name": null,
+    "user": {
+      "id": 897576836,
+      "id_str": "897576836",
+      "name": "Norman",
+      "screen_name": "NPickavance",
+      "location": "EVERYWHERE",
+      "url": "http://normanpickavance.co.uk/",
+      "description": "Building Business Everyone Can Believe in...... \n\n\n\n'Let your life speak'",
+      "translator_type": "none",
+      "protected": false,
+      "verified": false,
+      "followers_count": 2140,
+      "friends_count": 4999,
+      "listed_count": 307,
+      "favourites_count": 4366,
+      "statuses_count": 13474,
+      "created_at": "Mon Oct 22 13:23:28 +0000 2012",
+      "utc_offset": null,
+      "time_zone": null,
+      "geo_enabled": true,
+      "lang": null,
+      "contributors_enabled": false,
+      "is_translator": false,
+      "profile_background_color": "C0DEED",
+      "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+      "profile_background_tile": false,
+      "profile_link_color": "FAB81E",
+      "profile_sidebar_border_color": "FFFFFF",
+      "profile_sidebar_fill_color": "DDEEF6",
+      "profile_text_color": "333333",
+      "profile_use_background_image": true,
+      "profile_image_url": "http://pbs.twimg.com/profile_images/1218981455948402688/bHPZ6nc0_normal.png",
+      "profile_image_url_https": "https://pbs.twimg.com/profile_images/1218981455948402688/bHPZ6nc0_normal.png",
+      "profile_banner_url": "https://pbs.twimg.com/profile_banners/897576836/1584646889",
+      "default_profile": false,
+      "default_profile_image": false,
+      "following": null,
+      "follow_request_sent": null,
+      "notifications": null
+    },
+    "geo": null,
+    "coordinates": null,
+    "place": null,
+    "contributors": null,
+    "quoted_status_id": 1255114367949037600,
+    "quoted_status_id_str": "1255114367949037569",
+    "quoted_status": {
+      "created_at": "Tue Apr 28 12:39:18 +0000 2020",
+      "id": 1255114367949037600,
+      "id_str": "1255114367949037569",
+      "text": "There are concerns about recruitment and the economy as internships are cancelled https://t.co/Fi1llz83HI",
+      "source": "<a href=\"https://www.echobox.com\" rel=\"nofollow\">Echobox Social</a>",
+      "truncated": false,
+      "in_reply_to_status_id": null,
+      "in_reply_to_status_id_str": null,
+      "in_reply_to_user_id": null,
+      "in_reply_to_user_id_str": null,
+      "in_reply_to_screen_name": null,
+      "user": {
+        "id": 38142380,
+        "id_str": "38142380",
+        "name": "Evening Standard",
+        "screen_name": "standardnews",
+        "location": "London",
+        "url": "http://www.standard.co.uk",
+        "description": "Breaking news and updates on top London stories from the newsdesk of the @EveningStandard. Follow our other accounts at https://t.co/5nrRg0ZT",
+        "translator_type": "none",
+        "protected": false,
+        "verified": true,
+        "followers_count": 631794,
+        "friends_count": 889,
+        "listed_count": 4154,
+        "favourites_count": 36,
+        "statuses_count": 336653,
+        "created_at": "Wed May 06 08:47:09 +0000 2009",
+        "utc_offset": null,
+        "time_zone": null,
+        "geo_enabled": false,
+        "lang": null,
+        "contributors_enabled": false,
+        "is_translator": false,
+        "profile_background_color": "9AE4E8",
+        "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg.png",
+        "profile_background_tile": true,
+        "profile_link_color": "303F9F",
+        "profile_sidebar_border_color": "BDDCAD",
+        "profile_sidebar_fill_color": "DDFFCC",
+        "profile_text_color": "333333",
+        "profile_use_background_image": true,
+        "profile_image_url": "http://pbs.twimg.com/profile_images/973162573389533185/HOwtAp6Y_normal.jpg",
+        "profile_image_url_https": "https://pbs.twimg.com/profile_images/973162573389533185/HOwtAp6Y_normal.jpg",
+        "profile_banner_url": "https://pbs.twimg.com/profile_banners/38142380/1549874035",
+        "default_profile": false,
+        "default_profile_image": false,
+        "following": null,
+        "follow_request_sent": null,
+        "notifications": null
+      },
+      "geo": null,
+      "coordinates": null,
+      "place": null,
+      "contributors": null,
+      "is_quote_status": false,
+      "quote_count": 0,
+      "reply_count": 0,
+      "retweet_count": 1,
+      "favorite_count": 7,
+      "entities": {
+        "hashtags": [],
+        "urls": [
+          {
+            "url": "https://t.co/Fi1llz83HI",
+            "expanded_url": "https://bit.ly/2Yecfi3",
+            "display_url": "bit.ly/2Yecfi3",
+            "indices": [
+              82,
+              105
+            ]
+          }
+        ],
+        "user_mentions": [],
+        "symbols": []
+      },
+      "favorited": false,
+      "retweeted": false,
+      "possibly_sensitive": false,
+      "filter_level": "low",
+      "lang": "en"
+    },
+    "quoted_status_permalink": {
+      "url": "https://t.co/RAXP1A8hpm",
+      "expanded": "https://twitter.com/standardnews/status/1255114367949037569",
+      "display": "twitter.com/standardnews/s…"
+    },
+    "is_quote_status": true,
+    "extended_tweet": {
+      "full_text": "#Covid19 is sadly going to hit young people in the earliest part of their #careers very hard indeed.\n#financialwellbeing",
+      "display_text_range": [
+        0,
+        120
+      ],
+      "entities": {
+        "hashtags": [
+          {
+            "text": "Covid19",
+            "indices": [
+              0,
+              8
+            ]
+          },
+          {
+            "text": "careers",
+            "indices": [
+              74,
+              82
+            ]
+          },
+          {
+            "text": "financialwellbeing",
+            "indices": [
+              101,
+              120
+            ]
+          }
+        ],
+        "urls": [],
+        "user_mentions": [],
+        "symbols": []
+      }
+    },
+    "quote_count": 0,
+    "reply_count": 0,
+    "retweet_count": 0,
+    "favorite_count": 0,
+    "entities": {
+      "hashtags": [
+        {
+          "text": "Covid19",
+          "indices": [
+            0,
+            8
+          ]
+        },
+        {
+          "text": "careers",
+          "indices": [
+            74,
+            82
+          ]
+        }
+      ],
+      "urls": [
+        {
+          "url": "https://t.co/ltWYQDTILN",
+          "expanded_url": "https://twitter.com/i/web/status/1255126152538177537",
+          "display_url": "twitter.com/i/web/status/1…",
+          "indices": [
+            102,
+            125
+          ]
+        }
+      ],
+      "user_mentions": [],
+      "symbols": []
+    },
+    "favorited": false,
+    "retweeted": false,
+    "filter_level": "low",
+    "lang": "en",
+    "timestamp_ms": "1588080368538"
+  }
+}
+
+
+GET /twitter
+
+{
+  "twitter": {
+    "aliases": {},
+    "mappings": {
+      "properties": {
+        "created_at": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "entities": {
+          "properties": {
+            "hashtags": {
+              "properties": {
+                "indices": {
+                  "type": "long"
+                },
+                "text": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                }
+              }
+            },
+            "urls": {
+              "properties": {
+                "display_url": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "expanded_url": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "indices": {
+                  "type": "long"
+                },
+                "url": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "extended_tweet": {
+          "properties": {
+            "display_text_range": {
+              "type": "long"
+            },
+            "entities": {
+              "properties": {
+                "hashtags": {
+                  "properties": {
+                    "indices": {
+                      "type": "long"
+                    },
+                    "text": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "full_text": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            }
+          }
+        },
+        "favorite_count": {
+          "type": "long"
+        },
+        "favorited": {
+          "type": "boolean"
+        },
+        "filter_level": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "id": {
+          "type": "long"
+        },
+        "id_str": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "is_quote_status": {
+          "type": "boolean"
+        },
+        "lang": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "quote_count": {
+          "type": "long"
+        },
+        "quoted_status": {
+          "properties": {
+            "created_at": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "entities": {
+              "properties": {
+                "urls": {
+                  "properties": {
+                    "display_url": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    },
+                    "expanded_url": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    },
+                    "indices": {
+                      "type": "long"
+                    },
+                    "url": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "favorite_count": {
+              "type": "long"
+            },
+            "favorited": {
+              "type": "boolean"
+            },
+            "filter_level": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "id": {
+              "type": "long"
+            },
+            "id_str": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "is_quote_status": {
+              "type": "boolean"
+            },
+            "lang": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "possibly_sensitive": {
+              "type": "boolean"
+            },
+            "quote_count": {
+              "type": "long"
+            },
+            "reply_count": {
+              "type": "long"
+            },
+            "retweet_count": {
+              "type": "long"
+            },
+            "retweeted": {
+              "type": "boolean"
+            },
+            "source": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "text": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "truncated": {
+              "type": "boolean"
+            },
+            "user": {
+              "properties": {
+                "contributors_enabled": {
+                  "type": "boolean"
+                },
+                "created_at": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "default_profile": {
+                  "type": "boolean"
+                },
+                "default_profile_image": {
+                  "type": "boolean"
+                },
+                "description": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "favourites_count": {
+                  "type": "long"
+                },
+                "followers_count": {
+                  "type": "long"
+                },
+                "friends_count": {
+                  "type": "long"
+                },
+                "geo_enabled": {
+                  "type": "boolean"
+                },
+                "id": {
+                  "type": "long"
+                },
+                "id_str": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "is_translator": {
+                  "type": "boolean"
+                },
+                "listed_count": {
+                  "type": "long"
+                },
+                "location": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "name": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "profile_background_color": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "profile_background_image_url": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "profile_background_image_url_https": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "profile_background_tile": {
+                  "type": "boolean"
+                },
+                "profile_banner_url": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "profile_image_url": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "profile_image_url_https": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "profile_link_color": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "profile_sidebar_border_color": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "profile_sidebar_fill_color": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "profile_text_color": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "profile_use_background_image": {
+                  "type": "boolean"
+                },
+                "protected": {
+                  "type": "boolean"
+                },
+                "screen_name": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "statuses_count": {
+                  "type": "long"
+                },
+                "translator_type": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "url": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "verified": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "quoted_status_id": {
+          "type": "long"
+        },
+        "quoted_status_id_str": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "quoted_status_permalink": {
+          "properties": {
+            "display": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "expanded": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "url": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            }
+          }
+        },
+        "reply_count": {
+          "type": "long"
+        },
+        "retweet_count": {
+          "type": "long"
+        },
+        "retweeted": {
+          "type": "boolean"
+        },
+        "source": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "text": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "timestamp_ms": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "truncated": {
+          "type": "boolean"
+        },
+        "user": {
+          "properties": {
+            "contributors_enabled": {
+              "type": "boolean"
+            },
+            "created_at": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "default_profile": {
+              "type": "boolean"
+            },
+            "default_profile_image": {
+              "type": "boolean"
+            },
+            "description": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "favourites_count": {
+              "type": "long"
+            },
+            "followers_count": {
+              "type": "long"
+            },
+            "friends_count": {
+              "type": "long"
+            },
+            "geo_enabled": {
+              "type": "boolean"
+            },
+            "id": {
+              "type": "long"
+            },
+            "id_str": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "is_translator": {
+              "type": "boolean"
+            },
+            "listed_count": {
+              "type": "long"
+            },
+            "location": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "name": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "profile_background_color": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "profile_background_image_url": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "profile_background_image_url_https": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "profile_background_tile": {
+              "type": "boolean"
+            },
+            "profile_banner_url": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "profile_image_url": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "profile_image_url_https": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "profile_link_color": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "profile_sidebar_border_color": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "profile_sidebar_fill_color": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "profile_text_color": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "profile_use_background_image": {
+              "type": "boolean"
+            },
+            "protected": {
+              "type": "boolean"
+            },
+            "screen_name": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "statuses_count": {
+              "type": "long"
+            },
+            "translator_type": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "url": {
+              "type": "text",
+              "fields": {
+                "keyword": {
+                  "type": "keyword",
+                  "ignore_above": 256
+                }
+              }
+            },
+            "verified": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "settings": {
+      "index": {
+        "number_of_shards": "1",
+        "auto_expand_replicas": null,
+        "provided_name": "twitter",
+        "creation_date": "1588080102462",
+        "priority": "0",
+        "number_of_replicas": "1",
+        "uuid": "...",
+        "version": {
+          "created": "7020099"
+        }
+      }
+    }
+  }
+}
+
+DELETE /twitter/tweets/1
+
+200
+
+{
+  "_index": "twitter",
+  "_type": "tweets",
+  "_id": "1",
+  "_version": 2,
+  "result": "deleted",
+  "_shards": {
+    "total": 2,
+    "successful": 2,
+    "failed": 0
+  },
+  "_seq_no": 1,
+  "_primary_term": 1
+}
+
+GET /twitter/tweets/1
+
+404
+
+{
+  "_index": "twitter",
+  "_type": "tweets",
+  "_id": "1",
+  "found": false
+}
+
+DELETE /twitter
+
+200
+
+{
+  "acknowledged": true
+}
+
+---------------
+
+PUT /twitter
+
+{
+  "acknowledged": true,
+  "shards_acknowledged": true,
+  "index": "twitter"
+}
+
+GET /_cat/indices?v
+
+health status index                     uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+green  open   twitter M8..._m...   1   1          0            0       460b           230b
+
+GET /twitter/_doc/JRFLwXEBUm7XgbM2lRDC
+
+{
+  "_index": "twitter",
+  "_type": "_doc",
+  "_id": "JRFLwXEBUm7XgbM2lRDC",
+  "_version": 1,
+  "_seq_no": 0,
+  "_primary_term": 1,
+  "found": true,
+  "_source": {
+    "text": "#Covid19 is sadly going to hit young people in the earliest part of their #careers very hard indeed.…"
+  }
+}
+
+GET /twitter/_doc/hmxPwXEBomK58DD6Jahg
+
+mesma coisa
