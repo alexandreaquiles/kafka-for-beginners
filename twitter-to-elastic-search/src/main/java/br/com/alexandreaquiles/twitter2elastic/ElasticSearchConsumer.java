@@ -101,19 +101,21 @@ class ConsumerRunnable implements  Runnable {
             "topic: " + record.topic() + " "
               + "partition: " + record.partition() + " "
               + "offset: " + record.offset() + " "
-              + "timestamp: " + record.timestamp() + "\n"
-              + "key: " + record.key() + "\n"
+              + "timestamp: " + record.timestamp() + " "
+              + "key: " + record.key()
           );
 
           String tweet = record.value();
 
-          IndexRequest indexRequest = new IndexRequest("twitter")
-            .source(tweet, XContentType.JSON);
+          if (tweet != null && !tweet.isEmpty()) {
+            IndexRequest indexRequest = new IndexRequest("twitter")
+              .source(tweet, XContentType.JSON);
 
-          IndexResponse indexResponse = elasticSearchClient.index(indexRequest, RequestOptions.DEFAULT);
-          String id = indexResponse.getId();
+            IndexResponse indexResponse = elasticSearchClient.index(indexRequest, RequestOptions.DEFAULT);
+            String id = indexResponse.getId();
 
-          logger.info("Elasticsearch id: " + id);
+            logger.info("Elasticsearch id: " + id);
+          }
 
         }
       }
